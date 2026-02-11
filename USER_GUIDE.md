@@ -18,8 +18,8 @@ Two variants are available - **you can install both and switch between them**:
 ### Installation
 
 1. **Download** the variant you want:
-   - [nvSpeechPlayer_master-b06a97b.nvda-addon](nvSpeechPlayer_master-b06a97b.nvda-addon) (Standard)
-   - [nveloq_master-b06a97b.nvda-addon](nveloq_master-b06a97b.nvda-addon) (Eloquence-style)
+   - [nvSpeechPlayer_master-a1ee145.nvda-addon](nvSpeechPlayer_master-a1ee145.nvda-addon) (Standard)
+   - [nveloq_master-a1ee145.nvda-addon](nveloq_master-a1ee145.nvda-addon) (Eloquence-style)
 
 2. **Install**: Double-click the downloaded .nvda-addon file (or press Enter on it in Windows Explorer)
 

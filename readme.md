@@ -7,11 +7,11 @@ Author: NV Access Limited
 **Two variants are available:**
 
 1. **nvSpeechPlayer** (Standard) - Modern eSpeak-style intonation
-   - Download: [nvSpeechPlayer_master-b06a97b.nvda-addon](nvSpeechPlayer_master-b06a97b.nvda-addon)
+   - Download: [nvSpeechPlayer_master-a1ee145.nvda-addon](nvSpeechPlayer_master-a1ee145.nvda-addon)
    - Uses table-based intonation system introduced in May 2014
 
 2. **nveloq** (Eloquence-style) - Classic Eloquence-style intonation
-   - Download: [nveloq_master-b06a97b.nvda-addon](nveloq_master-b06a97b.nvda-addon)
+   - Download: [nveloq_master-a1ee145.nvda-addon](nveloq_master-a1ee145.nvda-addon)
    - Uses smooth formula-based pitch curves from April 2014
    - Sounds more like classic Eloquence synthesizer
 
