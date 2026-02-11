@@ -2,10 +2,46 @@
 A Klatt-based speech synthesis engine written in c++
 Author: NV Access Limited
 
-## Maintenance Note
-NV Access is no longer maintaining this project. If you make use of this project or find it interesting, and you have the time and expertise to maintain it, please feel free to fork it and let us know you are interested in taking it on.
+## Download & Install
 
-This includes the speechPlayer core itself, plus the nvSpeechPlayer NVDA add-on also in this repository.
+**Two variants are available:**
+
+1. **nvSpeechPlayer** (Standard) - Modern eSpeak-style intonation
+   - Download: [nvSpeechPlayer_master-59765b0.nvda-addon](nvSpeechPlayer_master-59765b0.nvda-addon)
+   - Uses table-based intonation system introduced in May 2014
+
+2. **nveloq** (Eloquence-style) - Classic Eloquence-style intonation
+   - Download: [nveloq_master-aa158e5.nvda-addon](nveloq_master-aa158e5.nvda-addon)
+   - Uses smooth formula-based pitch curves from April 2014
+   - Sounds more like classic Eloquence synthesizer
+
+Both variants are compatible with **NVDA 2019.3 through 2025.3+** and can be installed side-by-side.
+
+To install: Download the .nvda-addon file and open it. NVDA will prompt you to install the add-on.
+
+## What's the Difference?
+
+The two variants differ in their **intonation system** - how pitch changes throughout speech:
+
+- **nvSpeechPlayer (Standard)**: Uses a table-based intonation system with distinct preHead, head, nucleus, and tail components. This matches eSpeak's intonation model and was introduced in commit 646f7f9 (May 2014).
+
+- **nveloq (Eloquence-style)**: Uses smooth mathematical pitch curves based on syllable stress. This produces intonation that sounds more like the classic Eloquence synthesizer and was the original system used before commit 646f7f9 (based on commit ee80f4d from April 2014).
+
+Both use the same Klatt synthesis engine and phoneme data - only the pitch/intonation differs.
+
+## Recent Updates (2025)
+
+This fork has been updated for compatibility with modern NVDA versions (2019.3-2025.3+):
+
+- Fixed NVDA 2021.1+ API compatibility (speech command imports)
+- Added backward compatibility for NVDA 2019.3-2024.x
+- Fixed WavePlayer initialization for different NVDA versions
+- Created separate installable variants for both intonation styles
+- See [COMPATIBILITY.md](COMPATIBILITY.md) for technical details
+
+## Maintenance Note
+NV Access is no longer maintaining the original project. This fork provides compatibility updates and preserves both intonation styles for the community.
+
 Note that the eSpeak-ng/espeak-ng project also includes a copy of the speechPlayer code as an alternative Klatt implementation.
  
 ## Overview
