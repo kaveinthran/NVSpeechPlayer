@@ -6,12 +6,13 @@ Import([
 
 # Build nvSpeechPlayer (combined dual-mode add-on)
 # Copy all required files to build directory
-for filePath in ("#data.py","#ipa.py","#speechPlayer.py","#speechPlayer.dll"):
+for filePath in ("#data.py","#speechPlayer.py","#speechPlayer.dll"):
 	f=File(filePath)
 	env.Command("synthDrivers/nvSpeechPlayer/%s"%os.path.basename(f.abspath),f,Copy("$TARGET","$SOURCE"))
 
-# Copy __init__.py directly from source directory
+# Copy __init__.py and ipa.py directly from source directory (they have the dual-mode support)
 env.Command("synthDrivers/nvSpeechPlayer/__init__.py","#nvdaAddon/synthDrivers/nvSpeechPlayer/__init__.py",Copy("$TARGET","$SOURCE"))
+env.Command("synthDrivers/nvSpeechPlayer/ipa.py","#nvdaAddon/synthDrivers/nvSpeechPlayer/ipa.py",Copy("$TARGET","$SOURCE"))
 
 # Create manifest.ini at root
 env.Textfile("manifest.ini",File("manifest-standard.ini.in"),SUBST_DICT={'_version_':env['version'],'_author_':env['author']})

@@ -6,17 +6,22 @@ Author: NV Access Limited
 
 **⭐ NEW: Dual Intonation Mode in ONE Add-on! ⭐**
 
+### Quick Download
+**[📥 Download Latest Release](https://github.com/kaveinthran/NVSpeechPlayer/releases/latest)**
+
+Or view all releases: **[Releases Page](https://github.com/kaveinthran/NVSpeechPlayer/releases)**
+
 **nvSpeechPlayer** - Switchable dual-mode add-on
-- Download: [nvSpeechPlayer_master-61ecd8b.nvda-addon](nvSpeechPlayer_master-61ecd8b.nvda-addon)
 - **Includes BOTH intonation modes in one add-on:**
   - **nvEspeak mode** (default): Modern eSpeak-style intonation (post-2014)
   - **NVeloq mode**: Classic Eloquence-style intonation (pre-2014)
-- **Switch modes on-the-fly** via synth settings without restarting NVDA
-- Access via synth settings ring: Navigate to "Intonation: NVeloq (Eloquence-style)" and toggle
+- **Switch modes on-the-fly** in Voice Settings dialog without restarting NVDA
+- Access via Voice Settings (`NVDA+Ctrl+S`): Navigate to "Intonation: NVeloq (Eloquence-style)" checkbox
+- Also available in synth settings ring (`NVDA+Ctrl+Left/Right Arrow`)
 
-Compatible with **NVDA 2019.3 through 2025.3+ (32-bit)**
+Compatible with **NVDA 2019.3 through 2026.1+ (32-bit)**
 
-To install: Download the .nvda-addon file and open it. NVDA will prompt you to install the add-on.
+**To install**: Download the .nvda-addon file and open it. NVDA will prompt you to install the add-on.
 
 ## What's the Difference Between Modes?
 
@@ -38,10 +43,16 @@ The nvSpeechPlayer add-on now includes **BOTH intonation systems** with an easy 
 
 ### How to Switch Modes
 
-1. Open NVDA Synth Settings: `NVDA+Ctrl+S`
-2. Navigate to **"Intonation: NVeloq (Eloquence-style)"**
-3. Check/uncheck to toggle between modes
-4. Or use synth settings ring to switch on-the-fly
+**Method 1: Via Voice Settings Dialog**
+1. Open NVDA Voice Settings: `NVDA+Ctrl+S`
+2. Tab to **"Intonation: NVeloq (Eloquence-style)"** checkbox
+3. Check = NVeloq mode (Eloquence), Uncheck = nvEspeak mode (default)
+4. Press OK - changes take effect immediately!
+
+**Method 2: Via Synth Settings Ring** (Quick Toggle)
+1. Press `NVDA+Ctrl+Left/Right Arrow` to navigate settings
+2. Find **"Intonation: NVeloq (Eloquence-style)"**
+3. Press `NVDA+Ctrl+Up/Down Arrow` to toggle on/off
 
 Both modes use the **same Klatt synthesis engine and phoneme data** - only pitch/intonation and timing differ.
 

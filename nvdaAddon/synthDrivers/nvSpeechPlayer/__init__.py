@@ -186,7 +186,8 @@ class SynthDriver(SynthDriver):
 		self.pitch=50
 		self.rate=50
 		self.volume=90
-		self.inflection=60
+		self.inflection=65
+		self.intonationMode=False
 		self.audioThread=AudioThread(self,self.player,16000)
 
 	@classmethod
@@ -202,7 +203,7 @@ class SynthDriver(SynthDriver):
 		SynthDriver.PitchSetting(),
 		SynthDriver.VolumeSetting(),
 		SynthDriver.InflectionSetting(),
-		BooleanDriverSetting("intonationMode", "Intonation: NVeloq (Eloquence-style)", defaultVal=False)
+		BooleanDriverSetting("intonationMode", "Intonation: NVeloq (Eloquence-style)", defaultVal=False, availableInSettingsRing=True)
 	)
 
 	supportedCommands = {

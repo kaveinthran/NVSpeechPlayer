@@ -13,7 +13,7 @@ The **nvSpeechPlayer** add-on now features a built-in mode switcher:
 | Mode | Description | How to Enable |
 |------|-------------|---------------|
 | **nvEspeak** (default) | Modern eSpeak-style intonation - varied, expressive | Leave "Intonation: NVeloq" unchecked |
-| **NVeloq** | Classic Eloquence-style - smooth, predictable | Check "Intonation: NVeloq (Eloquence-style)" in synth settings |
+| **NVeloq** | Classic Eloquence-style - smooth, predictable | Check "Intonation: NVeloq (Eloquence-style)" in Voice Settings dialog |
 
 **Benefits:**
 - ✅ Switch modes instantly without restarting NVDA
@@ -24,7 +24,8 @@ The **nvSpeechPlayer** add-on now features a built-in mode switcher:
 ### Installation
 
 1. **Download** the add-on:
-   - [nvSpeechPlayer_master-61ecd8b.nvda-addon](nvSpeechPlayer_master-61ecd8b.nvda-addon) **(Includes both modes!)**
+   - Get the latest release from the [Releases page](https://github.com/kaveinthran/NVSpeechPlayer/releases)
+   - Or download directly: [Latest nvSpeechPlayer.nvda-addon](https://github.com/kaveinthran/NVSpeechPlayer/releases/latest) **(Includes both modes!)**
 
 2. **Install**: Double-click the downloaded .nvda-addon file (or press Enter on it in Windows Explorer)
 
@@ -32,22 +33,22 @@ The **nvSpeechPlayer** add-on now features a built-in mode switcher:
 
 4. **Restart**: NVDA will prompt you to restart. Choose "Yes" to complete installation
 
-5. **Select**: After restart, press `NVDA+Control+S` to open Synth Settings, then:
+5. **Select**: After restart, press `NVDA+Control+S` to open Voice Settings dialog, then:
    - Choose "nvSpeechPlayer" from the synthesizer list
    - Press OK
 
 ### How to Switch Intonation Modes
 
-**Method 1: Via Synth Settings Dialog**
-1. Press `NVDA+Ctrl+S` to open Synth Settings
+**Method 1: Via Voice Settings Dialog**
+1. Press `NVDA+Ctrl+S` to open Voice Settings dialog
 2. Tab to **"Intonation: NVeloq (Eloquence-style)"** checkbox
 3. Check = NVeloq mode (Eloquence-style), Uncheck = nvEspeak mode (default)
 4. Press OK - changes take effect immediately!
 
 **Method 2: Via Synth Settings Ring** (Quick Toggle)
-1. Press `NVDA+Ctrl+Arrow Keys` to navigate synth settings
+1. Press `NVDA+Ctrl+Left/Right Arrow` to navigate through synth settings
 2. Find **"Intonation: NVeloq (Eloquence-style)"**
-3. Press `NVDA+Ctrl+Up/Down` to toggle on/off
+3. Press `NVDA+Ctrl+Up/Down Arrow` to toggle on/off
 4. Hear the difference instantly!
 
 ### What's the Difference?
@@ -90,8 +91,8 @@ Both variants include the same voices:
 - **Rate**: Speaking speed (0-100)
 - **Pitch**: Voice pitch (0-100)
 - **Volume**: Loudness (0-100)
-- **Inflection**: Amount of pitch variation (0-100)
-- **Intonation: NVeloq (Eloquence-style)**: Toggle between nvEspeak/NVeloq modes (checkbox)
+- **Inflection**: Amount of pitch variation (0-100, default 65)
+- **Intonation: NVeloq (Eloquence-style)**: Toggle between nvEspeak/NVeloq modes (checkbox in Voice Settings dialog)
 
 ### System Requirements
 
