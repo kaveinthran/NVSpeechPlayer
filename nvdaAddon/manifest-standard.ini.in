@@ -1,6 +1,6 @@
 name=nvSpeechPlayer
-summary=nvSpeechPlayer
-description=A free Klatt-based speech synthesizer
+summary=nvSpeechPlayer with dual intonation modes
+description=A free Klatt-based speech synthesizer with switchable nvEspeak (post-2014) and NVeloq (pre-2014 Eloquence-style) intonation modes
 author=_author_
 version=_version_
 minimumNVDAVersion = 2019.3.0

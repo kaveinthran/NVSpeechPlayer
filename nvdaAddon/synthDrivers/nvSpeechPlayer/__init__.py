@@ -29,9 +29,9 @@ from synthDriverHandler import SynthDriver, VoiceInfo, synthIndexReached, synthD
 
 # Try modern import first, fall back to old path for backward compatibility
 try:
-	from autoSettingsUtils.driverSetting import NumericDriverSetting
+	from autoSettingsUtils.driverSetting import NumericDriverSetting, BooleanDriverSetting
 except ImportError:
-	from driverHandler import NumericDriverSetting
+	from driverHandler import NumericDriverSetting, BooleanDriverSetting
 
 # Import speech commands with backward compatibility for different NVDA versions
 try:
@@ -196,7 +196,14 @@ class SynthDriver(SynthDriver):
 	name="nvSpeechPlayer"
 	description="nvSpeechPlayer"
 
-	supportedSettings=(SynthDriver.VoiceSetting(),SynthDriver.RateSetting(),SynthDriver.PitchSetting(),SynthDriver.VolumeSetting(),SynthDriver.InflectionSetting())
+	supportedSettings=(
+		SynthDriver.VoiceSetting(),
+		SynthDriver.RateSetting(),
+		SynthDriver.PitchSetting(),
+		SynthDriver.VolumeSetting(),
+		SynthDriver.InflectionSetting(),
+		BooleanDriverSetting("intonationMode", "Intonation: NVeloq (Eloquence-style)", defaultVal=False)
+	)
 
 	supportedCommands = {
 		IndexCommand,
@@ -210,6 +217,7 @@ class SynthDriver(SynthDriver):
 	_curInflection=0.5
 	_curVolume=1.0
 	_curRate=1.0
+	_intonationMode=False  # False=nvEspeak (post-2014), True=NVeloq (pre-2014)
 
 	def speak(self,speakList):
 		userIndex=None
@@ -265,7 +273,9 @@ class SynthDriver(SynthDriver):
 					if not chunk: continue
 					pitch=self._curPitch+pitchOffset
 					basePitch=25+(21.25*(pitch/12.5))
-					for args in ipa.generateFramesAndTiming(chunk,speed=self._curRate,basePitch=basePitch,inflection=self._curInflection,clauseType=clauseType):
+					# Select mode: False=nvEspeak (post-2014), True=NVeloq (pre-2014)
+					mode = 'eloquence' if self._intonationMode else 'espeak'
+					for args in ipa.generateFramesAndTiming(chunk,speed=self._curRate,basePitch=basePitch,inflection=self._curInflection,clauseType=clauseType,mode=mode):
 						frame=args[0]
 						if frame:
 							applyVoiceToFrame(frame,self._curVoice)
@@ -323,6 +333,12 @@ class SynthDriver(SynthDriver):
 		if self.exposeExtraParams:
 			for paramName in self._extraParamNames:
 				setattr(self,"speechPlayer_%s"%paramName,50)
+
+	def _get_intonationMode(self):
+		return self._intonationMode
+
+	def _set_intonationMode(self,val):
+		self._intonationMode=val
 
 	def _getAvailableVoices(self):
 		d=OrderedDict()
