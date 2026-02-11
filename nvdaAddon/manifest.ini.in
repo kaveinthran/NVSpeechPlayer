@@ -1,6 +1,6 @@
-name=nvSpeechPlayer
-summary=nvSpeechPlayer
-description=A free Klatt-based speech synthesizer
+name=nvSpeechPlayerEloquence
+summary=nvSpeechPlayer (Eloquence-style intonation)
+description=A free Klatt-based speech synthesizer with Eloquence-style intonation from pre-646f7f9
 author=_author_
 version=_version_
 minimumNVDAVersion = 2019.3.0
