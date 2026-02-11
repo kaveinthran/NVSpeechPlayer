@@ -193,8 +193,8 @@ class SynthDriver(SynthDriver):
 	def check(cls):
 		return True
 
-	name="nvSpeechPlayer"
-	description="nvSpeechPlayer"
+	name="nveloq"
+	description="nvSpeechPlayer Eloquence"
 
 	supportedSettings=(SynthDriver.VoiceSetting(),SynthDriver.RateSetting(),SynthDriver.PitchSetting(),SynthDriver.VolumeSetting(),SynthDriver.InflectionSetting())
 
