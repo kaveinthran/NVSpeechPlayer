@@ -26,7 +26,19 @@ import speech
 from logHandler import log
 from synthDrivers import _espeak
 from synthDriverHandler import SynthDriver, VoiceInfo, synthIndexReached, synthDoneSpeaking
-from driverHandler import NumericDriverSetting
+
+# Try modern import first, fall back to old path for backward compatibility
+try:
+	from autoSettingsUtils.driverSetting import NumericDriverSetting
+except ImportError:
+	from driverHandler import NumericDriverSetting
+
+# Import AudioPurpose if available (NVDA 2024.x+)
+try:
+	from nvwave import AudioPurpose
+	HAS_AUDIO_PURPOSE = True
+except ImportError:
+	HAS_AUDIO_PURPOSE = False
 
 
 class AudioThread(threading.Thread):
@@ -55,7 +67,30 @@ class AudioThread(threading.Thread):
 
 	def run(self):
 		try:
-			self.wavePlayer=nvwave.WavePlayer(channels=1, samplesPerSec=self.sampleRate, bitsPerSample=16, outputDevice=config.conf["speech"]["outputDevice"])
+			# Get output device from config (try modern path first)
+			try:
+				outputDevice = config.conf["audio"]["outputDevice"]
+			except KeyError:
+				outputDevice = config.conf["speech"]["outputDevice"]
+
+			# Create WavePlayer with version-appropriate signature
+			if HAS_AUDIO_PURPOSE:
+				self.wavePlayer = nvwave.WavePlayer(
+					channels=1,
+					samplesPerSec=self.sampleRate,
+					bitsPerSample=16,
+					outputDevice=outputDevice,
+					wantDucking=True,
+					purpose=AudioPurpose.SPEECH
+				)
+			else:
+				# Fallback for older NVDA (2019.3-2023.x)
+				self.wavePlayer = nvwave.WavePlayer(
+					channels=1,
+					samplesPerSec=self.sampleRate,
+					bitsPerSample=16,
+					outputDevice=outputDevice
+				)
 			self.synthEvent=threading.Event()
 		finally:
 			self.initializeEvent.set()
