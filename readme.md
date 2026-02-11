@@ -6,22 +6,15 @@ Author: NV Access Limited
 
 **⭐ NEW: Dual Intonation Mode in ONE Add-on! ⭐**
 
-**nvSpeechPlayer** (Recommended) - Switchable dual-mode add-on
-- Download: [nvSpeechPlayer_master-bc89128.nvda-addon](nvSpeechPlayer_master-bc89128.nvda-addon)
+**nvSpeechPlayer** - Switchable dual-mode add-on
+- Download: [nvSpeechPlayer_master-61ecd8b.nvda-addon](nvSpeechPlayer_master-61ecd8b.nvda-addon)
 - **Includes BOTH intonation modes in one add-on:**
   - **nvEspeak mode** (default): Modern eSpeak-style intonation (post-2014)
   - **NVeloq mode**: Classic Eloquence-style intonation (pre-2014)
 - **Switch modes on-the-fly** via synth settings without restarting NVDA
 - Access via synth settings ring: Navigate to "Intonation: NVeloq (Eloquence-style)" and toggle
 
-**Alternative: Separate Add-ons**
-
-If you prefer separate installations:
-
-1. **nvEspeak only**: Use the main nvSpeechPlayer add-on above (leave mode unchecked)
-2. **NVeloq only** (Eloquence-style): [nveloq_master-bc89128.nvda-addon](nveloq_master-bc89128.nvda-addon)
-
-All variants compatible with **NVDA 2019.3 through 2026.1+ (64-bit)**
+Compatible with **NVDA 2019.3 through 2025.3+ (32-bit)**
 
 To install: Download the .nvda-addon file and open it. NVDA will prompt you to install the add-on.
 

@@ -23,9 +23,8 @@ The **nvSpeechPlayer** add-on now features a built-in mode switcher:
 
 ### Installation
 
-1. **Download** the recommended add-on:
-   - [nvSpeechPlayer_master-bc89128.nvda-addon](nvSpeechPlayer_master-bc89128.nvda-addon) **(Recommended - includes both modes!)**
-   - Or [nveloq_master-bc89128.nvda-addon](nveloq_master-bc89128.nvda-addon) (Standalone NVeloq-only variant)
+1. **Download** the add-on:
+   - [nvSpeechPlayer_master-61ecd8b.nvda-addon](nvSpeechPlayer_master-61ecd8b.nvda-addon) **(Includes both modes!)**
 
 2. **Install**: Double-click the downloaded .nvda-addon file (or press Enter on it in Windows Explorer)
 
@@ -96,10 +95,10 @@ Both variants include the same voices:
 
 ### System Requirements
 
-- **NVDA**: Version 2019.3 or later (tested through 2026.1)
-- **Architecture**: 64-bit (x86_64) - compatible with NVDA 2026.x
-- **Windows**: Any 64-bit version supported by NVDA
-- **Disk Space**: ~60KB per variant
+- **NVDA**: Version 2019.3 or later (tested through 2025.3)
+- **Architecture**: 32-bit (x86) - compatible with current NVDA releases
+- **Windows**: Any version supported by NVDA
+- **Disk Space**: ~60KB
 
 ### Troubleshooting
 
