@@ -4,41 +4,68 @@ Author: NV Access Limited
 
 ## Download & Install
 
-**Two variants are available:**
+**⭐ NEW: Dual Intonation Mode in ONE Add-on! ⭐**
 
-1. **nvSpeechPlayer** (Standard) - Modern eSpeak-style intonation
-   - Download: [nvSpeechPlayer_master-a1ee145.nvda-addon](nvSpeechPlayer_master-a1ee145.nvda-addon)
-   - Uses table-based intonation system introduced in May 2014
+**nvSpeechPlayer** (Recommended) - Switchable dual-mode add-on
+- Download: [nvSpeechPlayer_master-bc89128.nvda-addon](nvSpeechPlayer_master-bc89128.nvda-addon)
+- **Includes BOTH intonation modes in one add-on:**
+  - **nvEspeak mode** (default): Modern eSpeak-style intonation (post-2014)
+  - **NVeloq mode**: Classic Eloquence-style intonation (pre-2014)
+- **Switch modes on-the-fly** via synth settings without restarting NVDA
+- Access via synth settings ring: Navigate to "Intonation: NVeloq (Eloquence-style)" and toggle
 
-2. **nveloq** (Eloquence-style) - Classic Eloquence-style intonation
-   - Download: [nveloq_master-a1ee145.nvda-addon](nveloq_master-a1ee145.nvda-addon)
-   - Uses smooth formula-based pitch curves from April 2014
-   - Sounds more like classic Eloquence synthesizer
+**Alternative: Separate Add-ons**
 
-Both variants are compatible with **NVDA 2019.3 through 2026.1+ (64-bit)** and can be installed side-by-side.
+If you prefer separate installations:
+
+1. **nvEspeak only**: Use the main nvSpeechPlayer add-on above (leave mode unchecked)
+2. **NVeloq only** (Eloquence-style): [nveloq_master-bc89128.nvda-addon](nveloq_master-bc89128.nvda-addon)
+
+All variants compatible with **NVDA 2019.3 through 2026.1+ (64-bit)**
 
 To install: Download the .nvda-addon file and open it. NVDA will prompt you to install the add-on.
 
-## What's the Difference?
+## What's the Difference Between Modes?
 
-The two variants differ in their **intonation system** - how pitch changes throughout speech:
+The nvSpeechPlayer add-on now includes **BOTH intonation systems** with an easy mode switcher:
 
-- **nvSpeechPlayer (Standard)**: Uses a table-based intonation system with distinct preHead, head, nucleus, and tail components. This matches eSpeak's intonation model and was introduced in commit 646f7f9 (May 2014).
+### nvEspeak Mode (Post-2014, Default)
+- **Table-based intonation**: Uses distinct preHead, head, nucleus, and tail components
+- Matches eSpeak's intonation model
+- Introduced in commit 646f7f9 (May 2014)
+- More varied, expressive pitch patterns
+- Timing: 1.4x/1.1x stress speed, 6ms stops
 
-- **nveloq (Eloquence-style)**: Uses smooth mathematical pitch curves based on syllable stress. This produces intonation that sounds more like the classic Eloquence synthesizer and was the original system used before commit 646f7f9 (based on commit ee80f4d from April 2014).
+### NVeloq Mode (Pre-2014, Eloquence-style)
+- **Smooth mathematical pitch curves**: Based on syllable stress
+- Sounds like classic Eloquence synthesizer
+- Original system from commit ee80f4d (April 2014)
+- Smoother, more predictable intonation
+- Timing: 1.5x/1.2x stress speed, 10ms stops
 
-Both use the same Klatt synthesis engine and phoneme data - only the pitch/intonation differs.
+### How to Switch Modes
+
+1. Open NVDA Synth Settings: `NVDA+Ctrl+S`
+2. Navigate to **"Intonation: NVeloq (Eloquence-style)"**
+3. Check/uncheck to toggle between modes
+4. Or use synth settings ring to switch on-the-fly
+
+Both modes use the **same Klatt synthesis engine and phoneme data** - only pitch/intonation and timing differ.
 
 ## Recent Updates (2025-2026)
 
-This fork has been updated for compatibility with modern NVDA versions (2019.3-2026.1+):
+### 🎉 NEW: Dual Intonation Mode Switcher (2026)
+- **ONE add-on with BOTH intonation styles** - no need for separate installations!
+- **Switch modes on-the-fly** via synth settings without restarting
+- Toggle between nvEspeak (post-2014) and NVeloq (pre-2014 Eloquence-style)
+- Access via synth settings ring for quick comparison
+- Default to nvEspeak, check "Intonation: NVeloq" to enable Eloquence-style
 
+### Compatibility Updates
 - **64-bit support**: Rebuilt for NVDA 2026.x 64-bit compatibility
 - Fixed NVDA 2021.1+ API compatibility (speech command imports)
 - Added backward compatibility for NVDA 2019.3-2024.x
 - Fixed WavePlayer initialization for different NVDA versions
-- Created separate installable variants for both intonation styles
-- Dual-build system for both variants
 - See [COMPATIBILITY.md](COMPATIBILITY.md) for technical details
 
 ## Maintenance Note

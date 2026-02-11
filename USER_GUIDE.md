@@ -4,22 +4,28 @@
 
 NV Speech Player is a free Klatt-based speech synthesizer for NVDA that sounds similar to Eloquence and DECtalk.
 
-### Which Variant Should I Choose?
+### ⭐ NEW: Dual Intonation Mode!
 
-Two variants are available - **you can install both and switch between them**:
+**ONE add-on now includes BOTH modes!** No need for separate installations.
 
-| Variant | Description | Best For |
-|---------|-------------|----------|
-| **nvSpeechPlayer** | Modern eSpeak-style intonation | Users who prefer more expressive, varied pitch patterns |
-| **nveloq** | Classic Eloquence-style intonation | Users who prefer smooth, predictable pitch similar to old Eloquence |
+The **nvSpeechPlayer** add-on now features a built-in mode switcher:
 
-**Not sure?** Install both and try them! Both variants can coexist peacefully.
+| Mode | Description | How to Enable |
+|------|-------------|---------------|
+| **nvEspeak** (default) | Modern eSpeak-style intonation - varied, expressive | Leave "Intonation: NVeloq" unchecked |
+| **NVeloq** | Classic Eloquence-style - smooth, predictable | Check "Intonation: NVeloq (Eloquence-style)" in synth settings |
+
+**Benefits:**
+- ✅ Switch modes instantly without restarting NVDA
+- ✅ Compare both styles easily using synth settings ring
+- ✅ ONE add-on - no separate installations needed
+- ✅ Choose your preferred mode anytime
 
 ### Installation
 
-1. **Download** the variant you want:
-   - [nvSpeechPlayer_master-a1ee145.nvda-addon](nvSpeechPlayer_master-a1ee145.nvda-addon) (Standard)
-   - [nveloq_master-a1ee145.nvda-addon](nveloq_master-a1ee145.nvda-addon) (Eloquence-style)
+1. **Download** the recommended add-on:
+   - [nvSpeechPlayer_master-bc89128.nvda-addon](nvSpeechPlayer_master-bc89128.nvda-addon) **(Recommended - includes both modes!)**
+   - Or [nveloq_master-bc89128.nvda-addon](nveloq_master-bc89128.nvda-addon) (Standalone NVeloq-only variant)
 
 2. **Install**: Double-click the downloaded .nvda-addon file (or press Enter on it in Windows Explorer)
 
@@ -28,41 +34,48 @@ Two variants are available - **you can install both and switch between them**:
 4. **Restart**: NVDA will prompt you to restart. Choose "Yes" to complete installation
 
 5. **Select**: After restart, press `NVDA+Control+S` to open Synth Settings, then:
-   - Choose "nvSpeechPlayer" or "nveloq" from the synthesizer list
+   - Choose "nvSpeechPlayer" from the synthesizer list
    - Press OK
+
+### How to Switch Intonation Modes
+
+**Method 1: Via Synth Settings Dialog**
+1. Press `NVDA+Ctrl+S` to open Synth Settings
+2. Tab to **"Intonation: NVeloq (Eloquence-style)"** checkbox
+3. Check = NVeloq mode (Eloquence-style), Uncheck = nvEspeak mode (default)
+4. Press OK - changes take effect immediately!
+
+**Method 2: Via Synth Settings Ring** (Quick Toggle)
+1. Press `NVDA+Ctrl+Arrow Keys` to navigate synth settings
+2. Find **"Intonation: NVeloq (Eloquence-style)"**
+3. Press `NVDA+Ctrl+Up/Down` to toggle on/off
+4. Hear the difference instantly!
 
 ### What's the Difference?
 
 Both variants use the **same voice engine** (Klatt synthesis) and sound fundamentally the same. The only difference is **how pitch changes** as the synthesizer speaks:
 
-#### nvSpeechPlayer (Standard)
+#### nvEspeak Mode (Default - Unchecked)
 - Uses a **table-based** intonation system
-- Pitch changes are based on sentence structure (head, nucleus, tail)
+- Pitch changes based on sentence structure (preHead, head, nucleus, tail)
 - Similar to how eSpeak handles intonation
 - More complex, varied pitch patterns
+- Timing: 1.4x/1.1x stressed syllables, 6ms stops
 - **Introduced**: May 2014 (commit 646f7f9)
 
-#### nveloq (Eloquence-style)
+#### NVeloq Mode (Eloquence-style - Checked)
 - Uses **smooth mathematical** pitch curves
-- Pitch changes based on syllable stress
+- Pitch changes based on syllable stress formulas
 - Similar to classic Eloquence synthesizer
 - Smoother, more predictable intonation
+- Timing: 1.5x/1.2x stressed syllables, 10ms stops
 - **Based on**: April 2014 code (commit ee80f4d)
 
 **Think of it like this:**
-- **nvSpeechPlayer** = More dramatic actor reading a story
-- **nveloq** = Calm narrator with steady, smooth delivery
+- **nvEspeak** = More dramatic actor with varied expression
+- **NVeloq** = Calm narrator with smooth, steady delivery
 
-Both are equally responsive and fast. It's purely a matter of personal preference!
-
-### Switching Between Variants
-
-If you have both installed:
-
-1. Press `NVDA+Control+S` (Synth Settings)
-2. Choose "nvSpeechPlayer" or "nveloq" from the Synthesizer dropdown
-3. Press OK
-4. NVDA will switch immediately - no restart needed
+Both modes are equally responsive and fast. Switch anytime to find your preference!
 
 ### Available Voices
 
@@ -74,11 +87,12 @@ Both variants include the same voices:
 
 ### Adjustable Settings
 
+- **Voice**: Choose from available voices (Adam, Benjamin, Caleb, David)
 - **Rate**: Speaking speed (0-100)
 - **Pitch**: Voice pitch (0-100)
 - **Volume**: Loudness (0-100)
 - **Inflection**: Amount of pitch variation (0-100)
-- **Voice**: Choose from available voices
+- **Intonation: NVeloq (Eloquence-style)**: Toggle between nvEspeak/NVeloq modes (checkbox)
 
 ### System Requirements
 
