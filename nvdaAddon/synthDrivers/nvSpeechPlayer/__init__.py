@@ -33,6 +33,17 @@ try:
 except ImportError:
 	from driverHandler import NumericDriverSetting
 
+# Import speech commands with backward compatibility for different NVDA versions
+try:
+	from speech.commands import IndexCommand, PitchCommand
+except ImportError:
+	try:
+		from speech import IndexCommand, PitchCommand
+	except ImportError:
+		# Fallback for very old NVDA versions
+		IndexCommand = None
+		PitchCommand = None
+
 # Import AudioPurpose if available (NVDA 2024.x+)
 try:
 	from nvwave import AudioPurpose
@@ -188,8 +199,8 @@ class SynthDriver(SynthDriver):
 	supportedSettings=(SynthDriver.VoiceSetting(),SynthDriver.RateSetting(),SynthDriver.PitchSetting(),SynthDriver.VolumeSetting(),SynthDriver.InflectionSetting())
 
 	supportedCommands = {
-		speech.IndexCommand,
-		speech.PitchCommand,
+		IndexCommand,
+		PitchCommand,
 	}
 
 	supportedNotifications = {synthIndexReached,synthDoneSpeaking}
