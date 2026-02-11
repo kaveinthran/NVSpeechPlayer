@@ -16,7 +16,7 @@ Or view all releases: **[Releases Page](https://github.com/kaveinthran/NVSpeechP
   - **nvEspeak mode** (default): Modern eSpeak-style intonation (post-2014)
   - **NVeloq mode**: Classic Eloquence-style intonation (pre-2014)
 - **Switch modes on-the-fly** in Voice Settings dialog without restarting NVDA
-- Access via Voice Settings (`NVDA+Ctrl+S`): Navigate to "Intonation: NVeloq (Eloquence-style)" checkbox
+- Access via Voice Settings (`NVDA+Ctrl+V`): Navigate to "Intonation: NVeloq (Eloquence-style)" checkbox
 - Also available in synth settings ring (`NVDA+Ctrl+Left/Right Arrow`)
 
 Compatible with **NVDA 2019.3 through 2026.1+ (32-bit)**
@@ -44,7 +44,7 @@ The nvSpeechPlayer add-on now includes **BOTH intonation systems** with an easy 
 ### How to Switch Modes
 
 **Method 1: Via Voice Settings Dialog**
-1. Open NVDA Voice Settings: `NVDA+Ctrl+S`
+1. Open NVDA Voice Settings: `NVDA+Ctrl+V`
 2. Tab to **"Intonation: NVeloq (Eloquence-style)"** checkbox
 3. Check = NVeloq mode (Eloquence), Uncheck = nvEspeak mode (default)
 4. Press OK - changes take effect immediately!

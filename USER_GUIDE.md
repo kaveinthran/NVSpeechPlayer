@@ -40,7 +40,7 @@ The **nvSpeechPlayer** add-on now features a built-in mode switcher:
 ### How to Switch Intonation Modes
 
 **Method 1: Via Voice Settings Dialog**
-1. Press `NVDA+Ctrl+S` to open Voice Settings dialog
+1. Press `NVDA+Ctrl+V` to open Voice Settings dialog
 2. Tab to **"Intonation: NVeloq (Eloquence-style)"** checkbox
 3. Check = NVeloq mode (Eloquence-style), Uncheck = nvEspeak mode (default)
 4. Press OK - changes take effect immediately!

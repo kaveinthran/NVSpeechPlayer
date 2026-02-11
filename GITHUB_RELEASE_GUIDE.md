@@ -52,7 +52,7 @@ git push origin main
      2. Open the file (double-click or press Enter)
      3. Follow NVDA prompts to install
      4. Restart NVDA
-     5. Select nvSpeechPlayer in Voice Settings (`NVDA+Ctrl+S`)
+     5. Select nvSpeechPlayer in Voice Settings (`NVDA+Ctrl+V`)
 
      ### 🎯 Features
 
