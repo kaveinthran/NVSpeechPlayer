@@ -7,15 +7,15 @@ Author: NV Access Limited
 **Two variants are available:**
 
 1. **nvSpeechPlayer** (Standard) - Modern eSpeak-style intonation
-   - Download: [nvSpeechPlayer_master-59765b0.nvda-addon](nvSpeechPlayer_master-59765b0.nvda-addon)
+   - Download: [nvSpeechPlayer_master-b06a97b.nvda-addon](nvSpeechPlayer_master-b06a97b.nvda-addon)
    - Uses table-based intonation system introduced in May 2014
 
 2. **nveloq** (Eloquence-style) - Classic Eloquence-style intonation
-   - Download: [nveloq_master-aa158e5.nvda-addon](nveloq_master-aa158e5.nvda-addon)
+   - Download: [nveloq_master-b06a97b.nvda-addon](nveloq_master-b06a97b.nvda-addon)
    - Uses smooth formula-based pitch curves from April 2014
    - Sounds more like classic Eloquence synthesizer
 
-Both variants are compatible with **NVDA 2019.3 through 2025.3+** and can be installed side-by-side.
+Both variants are compatible with **NVDA 2019.3 through 2026.1+ (64-bit)** and can be installed side-by-side.
 
 To install: Download the .nvda-addon file and open it. NVDA will prompt you to install the add-on.
 
@@ -29,14 +29,16 @@ The two variants differ in their **intonation system** - how pitch changes throu
 
 Both use the same Klatt synthesis engine and phoneme data - only the pitch/intonation differs.
 
-## Recent Updates (2025)
+## Recent Updates (2025-2026)
 
-This fork has been updated for compatibility with modern NVDA versions (2019.3-2025.3+):
+This fork has been updated for compatibility with modern NVDA versions (2019.3-2026.1+):
 
+- **64-bit support**: Rebuilt for NVDA 2026.x 64-bit compatibility
 - Fixed NVDA 2021.1+ API compatibility (speech command imports)
 - Added backward compatibility for NVDA 2019.3-2024.x
 - Fixed WavePlayer initialization for different NVDA versions
 - Created separate installable variants for both intonation styles
+- Dual-build system for both variants
 - See [COMPATIBILITY.md](COMPATIBILITY.md) for technical details
 
 ## Maintenance Note

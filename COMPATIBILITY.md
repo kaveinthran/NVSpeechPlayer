@@ -9,8 +9,9 @@ The original NV Speech Player code was written for NVDA 2014-2018 era. Several b
 ## Supported NVDA Versions
 
 - **Minimum**: NVDA 2019.3.0
-- **Last Tested**: NVDA 2025.3.2
-- **Fully Compatible**: NVDA 2019.3 through 2025.3+
+- **Last Tested**: NVDA 2026.1.0
+- **Fully Compatible**: NVDA 2019.3 through 2026.1+
+- **Architecture**: 64-bit (x86_64)
 
 ## Breaking Changes Fixed
 
@@ -182,7 +183,33 @@ Both variants share:
 - Same IPA processing
 - Same audio threading and playback code
 
+## 64-bit Architecture Support (NVDA 2026.x)
+
+**Change**: Updated build system to compile for 64-bit (x86_64) architecture.
+
+**File Changed**: `sconstruct` (line 42)
+
+```python
+# Before (32-bit):
+env=Environment(tools=['default','textfile'],variables=vars,HOST_ARCH='x86',TARGET_ARCH='x86')
+
+# After (64-bit):
+env=Environment(tools=['default','textfile'],variables=vars,HOST_ARCH='x86_64',TARGET_ARCH='x86_64')
+```
+
+This ensures compatibility with NVDA 2026.x which is 64-bit only.
+
 ## Build System Updates
+
+### Dual-Build System
+
+The build system has been updated to build both variants from a single `scons` command:
+
+```python
+# nvdaAddon/sconscript builds both:
+# 1. nveloq_<version>.nvda-addon (Eloquence-style)
+# 2. nvSpeechPlayer_<version>.nvda-addon (Standard)
+```
 
 ### Manifest Configuration
 

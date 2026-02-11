@@ -4,12 +4,34 @@ Import([
 	'env',
 ])
 
+# Build nveloq (Eloquence-style) variant
 for filePath in ("#data.py","#ipa.py","#speechPlayer.py","#speechPlayer.dll"):
 	f=File(filePath)
 	env.Command("synthDrivers/nveloq/%s"%os.path.basename(f.abspath),f,Copy("$TARGET","$SOURCE"))
-env.Textfile("manifest.ini",File("manifest.ini.in"),SUBST_DICT={'_version_':env['version'],'_author_':env['author']})
+
+env.Textfile("manifest-nveloq.ini",File("manifest.ini.in"),SUBST_DICT={'_version_':env['version'],'_author_':env['author']})
 
 addonRelPath=Dir('.')
-addon=env.ZipArchive(target="nveloq_%s.nvda-addon"%env['version'],source=[Dir('synthDrivers'),'manifest.ini'],relativeTo=addonRelPath)
-env.Depends(addon,'synthDrivers/nveloq/__init__.py')
-Return(['addon'])
+nveloqAddon=env.ZipArchive(
+	target="nveloq_%s.nvda-addon"%env['version'],
+	source=[Dir('synthDrivers/nveloq'),'manifest-nveloq.ini'],
+	relativeTo=addonRelPath
+)
+env.Depends(nveloqAddon,'synthDrivers/nveloq/__init__.py')
+
+# Build nvSpeechPlayer (standard) variant
+for filePath in ("#data.py","#ipa.py","#speechPlayer.py","#speechPlayer.dll"):
+	f=File(filePath)
+	env.Command("synthDrivers/nvSpeechPlayer/%s"%os.path.basename(f.abspath),f,Copy("$TARGET","$SOURCE"))
+
+env.Textfile("manifest-standard.ini",File("manifest-standard.ini.in"),SUBST_DICT={'_version_':env['version'],'_author_':env['author']})
+
+standardAddon=env.ZipArchive(
+	target="nvSpeechPlayer_%s.nvda-addon"%env['version'],
+	source=[Dir('synthDrivers/nvSpeechPlayer'),'manifest-standard.ini'],
+	relativeTo=addonRelPath
+)
+env.Depends(standardAddon,'synthDrivers/nvSpeechPlayer/__init__.py')
+
+# Return both add-ons
+Return(['nveloqAddon', 'standardAddon'])

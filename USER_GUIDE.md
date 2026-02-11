@@ -18,8 +18,8 @@ Two variants are available - **you can install both and switch between them**:
 ### Installation
 
 1. **Download** the variant you want:
-   - [nvSpeechPlayer_master-59765b0.nvda-addon](nvSpeechPlayer_master-59765b0.nvda-addon) (Standard)
-   - [nveloq_master-aa158e5.nvda-addon](nveloq_master-aa158e5.nvda-addon) (Eloquence-style)
+   - [nvSpeechPlayer_master-b06a97b.nvda-addon](nvSpeechPlayer_master-b06a97b.nvda-addon) (Standard)
+   - [nveloq_master-b06a97b.nvda-addon](nveloq_master-b06a97b.nvda-addon) (Eloquence-style)
 
 2. **Install**: Double-click the downloaded .nvda-addon file (or press Enter on it in Windows Explorer)
 
@@ -82,8 +82,9 @@ Both variants include the same voices:
 
 ### System Requirements
 
-- **NVDA**: Version 2019.3 or later (tested through 2025.3)
-- **Windows**: Any version supported by NVDA
+- **NVDA**: Version 2019.3 or later (tested through 2026.1)
+- **Architecture**: 64-bit (x86_64) - compatible with NVDA 2026.x
+- **Windows**: Any 64-bit version supported by NVDA
 - **Disk Space**: ~60KB per variant
 
 ### Troubleshooting
