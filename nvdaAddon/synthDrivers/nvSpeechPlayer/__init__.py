@@ -227,9 +227,9 @@ class SynthDriver(SynthDriver):
 			index+=1
 		endPause=20
 		for item in speakList:
-			if isinstance(item,speech.PitchCommand):
+			if isinstance(item, PitchCommand):
 				pitchOffset=item.offset
-			elif isinstance(item,speech.IndexCommand):
+			elif isinstance(item, IndexCommand):
 				userIndex=item.index
 			elif isinstance(item,str):
 				textList=re_textPause.split(item)
