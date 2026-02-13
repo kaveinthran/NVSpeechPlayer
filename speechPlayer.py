@@ -46,7 +46,8 @@ class SpeechPlayer(object):
 	def __init__(self,sampleRate):
 		self.sampleRate=sampleRate
 		self._dll=cdll.LoadLibrary(dllPath)
-		self._speechHandle=self._dll.speechPlayer_initialize(sampleRate)
+		self._dll.speechPlayer_initialize.restype = c_void_p
+		self._speechHandle=c_void_p(self._dll.speechPlayer_initialize(sampleRate))
 
 	def queueFrame(self,frame,minFrameDuration,fadeDuration,userIndex=-1,purgeQueue=False):
 		frame=byref(frame) if frame else None

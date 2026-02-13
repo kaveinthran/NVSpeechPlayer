@@ -182,6 +182,7 @@ class SynthDriver(SynthDriver):
 				setattr(self,"speechPlayer_%s"%x,50)
 		self.player=speechPlayer.SpeechPlayer(16000)
 		_espeak.initialize()
+		_espeak.espeakDLL.espeak_TextToPhonemes.restype = ctypes.c_void_p
 		_espeak.setVoiceByLanguage('en')
 		self.pitch=50
 		self.rate=50
