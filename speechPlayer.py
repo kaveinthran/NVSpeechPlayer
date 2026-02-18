@@ -12,7 +12,21 @@
 #http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 ###
 
-from ctypes import *
+# Advanced NVDA compatibility improvements inspired by tgeczy/TGSpeechBox
+# Original implementation: https://github.com/tgeczy/TGSpeechBox/commit/e6f76ff0efb7d3d46b09f9c413f6a015d69f3ed5
+# Credits: @tgeczy for background worker pattern, explicit ctypes prototypes, and timing fixes
+
+from ctypes import (
+	Structure,
+	POINTER,
+	byref,
+	c_double,
+	c_int,
+	c_short,
+	c_uint,
+	c_void_p,
+	cdll,
+)
 import os
 
 speechPlayer_frameParam_t=c_double
@@ -43,11 +57,35 @@ dllPath=os.path.join(os.path.dirname(__file__),'speechPlayer.dll')
 
 class SpeechPlayer(object):
 
-	def __init__(self,sampleRate):
-		self.sampleRate=sampleRate
-		self._dll=cdll.LoadLibrary(dllPath)
+	def _setupPrototypes(self):
+		"""Set ctypes function signatures to prevent 64-bit pointer truncation."""
+		# void* speechPlayer_initialize(int sampleRate);
+		self._dll.speechPlayer_initialize.argtypes = (c_int,)
 		self._dll.speechPlayer_initialize.restype = c_void_p
-		self._speechHandle=c_void_p(self._dll.speechPlayer_initialize(sampleRate))
+		
+		# void speechPlayer_queueFrame(void* handle, Frame* frame, uint minSamples, uint fadeSamples, int userIndex, bool purgeQueue);
+		self._dll.speechPlayer_queueFrame.argtypes = (c_void_p, POINTER(Frame), c_uint, c_uint, c_int, c_int)
+		self._dll.speechPlayer_queueFrame.restype = None
+		
+		# int speechPlayer_synthesize(void* handle, uint numSamples, short* out);
+		self._dll.speechPlayer_synthesize.argtypes = (c_void_p, c_uint, POINTER(c_short))
+		self._dll.speechPlayer_synthesize.restype = c_int
+		
+		# int speechPlayer_getLastIndex(void* handle);
+		self._dll.speechPlayer_getLastIndex.argtypes = (c_void_p,)
+		self._dll.speechPlayer_getLastIndex.restype = c_int
+		
+		# void speechPlayer_terminate(void* handle);
+		self._dll.speechPlayer_terminate.argtypes = (c_void_p,)
+		self._dll.speechPlayer_terminate.restype = None
+
+	def __init__(self,sampleRate):
+		self.sampleRate=int(sampleRate)
+		self._dll=cdll.LoadLibrary(dllPath)
+		self._setupPrototypes()
+		self._speechHandle=self._dll.speechPlayer_initialize(self.sampleRate)
+		if not self._speechHandle:
+			raise RuntimeError("speechPlayer_initialize failed")
 
 	def queueFrame(self,frame,minFrameDuration,fadeDuration,userIndex=-1,purgeQueue=False):
 		frame=byref(frame) if frame else None
