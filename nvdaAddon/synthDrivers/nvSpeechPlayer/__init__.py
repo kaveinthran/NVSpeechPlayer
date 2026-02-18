@@ -168,8 +168,8 @@ class AudioThread(threading.Thread):
 								self._wavePlayer.feed(b"", onDone=doneCb)
 						try:
 							self._wavePlayer.idle()
-						except Exception:
-							pass
+						except Exception as e:
+							log.debug(f"nvSpeechPlayer: Exception during idle(): {e}")
 					break
 		self._initializeEvent.set()
 
