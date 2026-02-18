@@ -6,7 +6,7 @@ Import([
 
 # Build nvSpeechPlayer (combined dual-mode add-on)
 # Copy all required files to build directory
-for filePath in ("#data.py","#speechPlayer.py","#speechPlayer.dll"):
+for filePath in ("#data.py","#speechPlayer.py","#speechPlayer_x86.dll","#speechPlayer_x64.dll"):
 	f=File(filePath)
 	env.Command("synthDrivers/nvSpeechPlayer/%s"%os.path.basename(f.abspath),f,Copy("$TARGET","$SOURCE"))
 

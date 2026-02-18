@@ -28,6 +28,7 @@ from ctypes import (
 	cdll,
 )
 import os
+import sys
 
 speechPlayer_frameParam_t=c_double
 
@@ -53,7 +54,11 @@ class Frame(Structure):
 		'endVoicePitch',
 	]]
 
-dllPath=os.path.join(os.path.dirname(__file__),'speechPlayer.dll')
+_dllDir = os.path.dirname(__file__)
+if sys.maxsize > 2**32:
+    dllPath = os.path.join(_dllDir, 'speechPlayer_x64.dll')
+else:
+    dllPath = os.path.join(_dllDir, 'speechPlayer_x86.dll')
 
 class SpeechPlayer(object):
 
@@ -89,7 +94,8 @@ class SpeechPlayer(object):
 
 	def queueFrame(self,frame,minFrameDuration,fadeDuration,userIndex=-1,purgeQueue=False):
 		frame=byref(frame) if frame else None
-		self._dll.speechPlayer_queueFrame(self._speechHandle,frame,int(minFrameDuration*(self.sampleRate/1000.0)),int(fadeDuration*(self.sampleRate/1000.0)),userIndex,purgeQueue)
+		if userIndex is None: userIndex=-1
+		self._dll.speechPlayer_queueFrame(self._speechHandle,frame,int(minFrameDuration*(self.sampleRate/1000.0)),int(fadeDuration*(self.sampleRate/1000.0)),int(userIndex),int(purgeQueue))
 
 	def synthesize(self,numSamples):
 		buf=(c_short*numSamples)()
