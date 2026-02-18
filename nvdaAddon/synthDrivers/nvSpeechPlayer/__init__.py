@@ -162,7 +162,7 @@ class AudioThread(threading.Thread):
 								synthDoneSpeaking.notify(synth=synth)
 							# Feed 0-byte buffer with callback to trigger after playback drains
 							try:
-								self._wavePlayer.feed(b"", len(0), onDone=doneCb)
+								self._wavePlayer.feed(b"", 0, onDone=doneCb)
 							except TypeError:
 								# Fallback for older NVDA
 								self._wavePlayer.feed(b"", onDone=doneCb)
@@ -355,6 +355,11 @@ class SynthDriver(SynthDriver):
 		self.audioThread._wavePlayer.pause(switch)
 
 	def _enqueue(self, func, *args, **kwargs):
+		"""Enqueue a task to be executed in the background worker thread.
+		
+		This method is provided for future use when background processing is needed,
+		such as for non-blocking phoneme conversion or other CPU-intensive tasks.
+		"""
 		if self._bgStop.is_set():
 			return
 		self._bgQueue.put((func, args, kwargs))
