@@ -12,12 +12,17 @@
 #http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 ###
 
+# Advanced NVDA compatibility improvements inspired by tgeczy/TGSpeechBox
+# Original implementation: https://github.com/tgeczy/TGSpeechBox/commit/e6f76ff0efb7d3d46b09f9c413f6a015d69f3ed5
+# Credits: @tgeczy for background worker pattern, explicit ctypes prototypes, and timing fixes
+
 import re
 import threading
 import math
 from collections import OrderedDict
 import ctypes
 import weakref
+import queue
 from . import speechPlayer
 from . import ipa
 import config
@@ -52,29 +57,56 @@ except ImportError:
 	HAS_AUDIO_PURPOSE = False
 
 
+class _BgThread(threading.Thread):
+	def __init__(self, q, stopEvent):
+		super().__init__(name=f"{self.__class__.__module__}.{self.__class__.__qualname__}")
+		self.daemon = True
+		self._q = q
+		self._stop = stopEvent
+	
+	def run(self):
+		while not self._stop.is_set():
+			try:
+				item = self._q.get(timeout=0.2)
+			except queue.Empty:
+				continue
+			try:
+				if item is None:
+					return
+				func, args, kwargs = item
+				func(*args, **kwargs)
+			except Exception:
+				log.error("nvSpeechPlayer: error in background thread", exc_info=True)
+			finally:
+				try:
+					self._q.task_done()
+				except Exception:
+					pass
+
+
 class AudioThread(threading.Thread):
 
-	wavePlayer=None
-	keepAlive=True
-	isSpeaking=False
-	synthEvent=None
-	initializeEvent=None
+	_wavePlayer=None
+	_keepAlive=True
+	_isSpeaking=False
+	_synthEvent=None
+	_initializeEvent=None
 
 	def __init__(self,synth, speechPlayerObj,sampleRate):
-		self.synthRef=weakref.ref(synth)
-		self.speechPlayer=speechPlayerObj
-		self.sampleRate=sampleRate
-		self.initializeEvent=threading.Event()
+		self._synthRef=weakref.ref(synth)
+		self._speechPlayer=speechPlayerObj
+		self._sampleRate=sampleRate
+		self._initializeEvent=threading.Event()
 		super(AudioThread,self).__init__()
 		self.start()
-		self.initializeEvent.wait()
+		self._initializeEvent.wait()
 
 	def terminate(self):
-		self.initializeEvent.clear()
-		self.keepAlive=False
-		self.isSpeaking=False
-		self.synthEvent.set()
-		self.initializeEvent.wait()
+		self._initializeEvent.clear()
+		self._keepAlive=False
+		self._isSpeaking=False
+		self._synthEvent.set()
+		self._initializeEvent.wait()
 
 	def run(self):
 		try:
@@ -86,9 +118,9 @@ class AudioThread(threading.Thread):
 
 			# Create WavePlayer with version-appropriate signature
 			if HAS_AUDIO_PURPOSE:
-				self.wavePlayer = nvwave.WavePlayer(
+				self._wavePlayer = nvwave.WavePlayer(
 					channels=1,
-					samplesPerSec=self.sampleRate,
+					samplesPerSec=self._sampleRate,
 					bitsPerSample=16,
 					outputDevice=outputDevice,
 					wantDucking=True,
@@ -96,36 +128,50 @@ class AudioThread(threading.Thread):
 				)
 			else:
 				# Fallback for older NVDA (2019.3-2023.x)
-				self.wavePlayer = nvwave.WavePlayer(
+				self._wavePlayer = nvwave.WavePlayer(
 					channels=1,
-					samplesPerSec=self.sampleRate,
+					samplesPerSec=self._sampleRate,
 					bitsPerSample=16,
 					outputDevice=outputDevice
 				)
-			self.synthEvent=threading.Event()
+			self._synthEvent=threading.Event()
 		finally:
-			self.initializeEvent.set()
-		while self.keepAlive:
-			self.synthEvent.wait()
-			self.synthEvent.clear()
+			self._initializeEvent.set()
+		while self._keepAlive:
+			self._synthEvent.wait()
+			self._synthEvent.clear()
 			lastIndex=None
-			while self.keepAlive:
-				data=self.speechPlayer.synthesize(8192)
-				if self.isSpeaking and data:
-					indexNum=self.speechPlayer.getLastIndex()
-					self.wavePlayer.feed(
+			while self._keepAlive:
+				data=self._speechPlayer.synthesize(8192)
+				if self._isSpeaking and data:
+					indexNum=self._speechPlayer.getLastIndex()
+					self._wavePlayer.feed(
 						ctypes.string_at(data,data.length*2),
-						onDone=lambda indexNum=indexNum: synthIndexReached.notify(synth=self.synthRef(),index=indexNum) if indexNum>=0 else False
+						onDone=lambda indexNum=indexNum: synthIndexReached.notify(synth=self._synthRef(),index=indexNum) if indexNum>=0 else False
 					)
 					lastIndex=indexNum
 				else:
-					indexNum=self.speechPlayer.getLastIndex()
+					indexNum=self._speechPlayer.getLastIndex()
 					if indexNum>0 and indexNum!=lastIndex:
-						synthIndexReached.notify(synth=self.synthRef(),index=indexNum)
-					self.wavePlayer.idle()
-					synthDoneSpeaking.notify(synth=self.synthRef())
+						synthIndexReached.notify(synth=self._synthRef(),index=indexNum)
+					# Fix synthDoneSpeaking timing - notify AFTER audio playback completes
+					if self._keepAlive and self._wavePlayer:
+						s = self._synthRef()
+						if s:
+							def doneCb(synth=s):
+								synthDoneSpeaking.notify(synth=synth)
+							# Feed 0-byte buffer with callback to trigger after playback drains
+							try:
+								self._wavePlayer.feed(b"", 0, onDone=doneCb)
+							except TypeError:
+								# Fallback for older NVDA
+								self._wavePlayer.feed(b"", onDone=doneCb)
+						try:
+							self._wavePlayer.idle()
+						except Exception as e:
+							log.debug(f"nvSpeechPlayer: Exception during idle(): {e}")
 					break
-		self.initializeEvent.set()
+		self._initializeEvent.set()
 
 re_textPause=re.compile(r"(?<=[.?!,:;])\s",re.DOTALL|re.UNICODE)
 
@@ -189,6 +235,13 @@ class SynthDriver(SynthDriver):
 		self.volume=90
 		self.inflection=65
 		self.intonationMode=False
+		
+		# Initialize background worker thread
+		self._bgQueue = queue.Queue()
+		self._bgStop = threading.Event()
+		self._bgThread = _BgThread(self._bgQueue, self._bgStop)
+		self._bgThread.start()
+		
 		self.audioThread=AudioThread(self,self.player,16000)
 
 	@classmethod
@@ -289,17 +342,27 @@ class SynthDriver(SynthDriver):
 						self.player.queueFrame(*args,userIndex=userIndex)
 						userIndex=None
 		self.player.queueFrame(None,endPause,max(10.0,10.0/self._curRate),userIndex=userIndex)
-		self.audioThread.isSpeaking=True
-		self.audioThread.synthEvent.set()
+		self.audioThread._isSpeaking=True
+		self.audioThread._synthEvent.set()
 
 	def cancel(self):
 		self.player.queueFrame(None,20,5,purgeQueue=True)
-		self.audioThread.isSpeaking=False
-		self.audioThread.synthEvent.set()
-		self.audioThread.wavePlayer.stop()
+		self.audioThread._isSpeaking=False
+		self.audioThread._synthEvent.set()
+		self.audioThread._wavePlayer.stop()
 
 	def pause(self,switch):
-		self.audioThread.wavePlayer.pause(switch)
+		self.audioThread._wavePlayer.pause(switch)
+
+	def _enqueue(self, func, *args, **kwargs):
+		"""Enqueue a task to be executed in the background worker thread.
+		
+		This method is provided for future use when background processing is needed,
+		such as for non-blocking phoneme conversion or other CPU-intensive tasks.
+		"""
+		if self._bgStop.is_set():
+			return
+		self._bgQueue.put((func, args, kwargs))
 
 	def _get_rate(self):
 		return int(math.log(self._curRate/0.25,2)*25.0)
@@ -349,6 +412,26 @@ class SynthDriver(SynthDriver):
 		return d
 
 	def terminate(self):
+		try:
+			self.cancel()
+		except Exception:
+			pass
+		
+		# Clean up background thread
+		try:
+			self._bgStop.set()
+			try:
+				self._bgQueue.put(None)
+			except Exception:
+				pass
+			try:
+				self._bgThread.join(timeout=2.0)
+			except Exception:
+				pass
+		except Exception:
+			pass
+		
+		# Clean up audio thread and resources
 		self.audioThread.terminate()
 		del self.player
 		_espeak.terminate()
